@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LeadManagement.Api</name>
+    </assembly>
+    <members>
+        <member name="M:LeadManagement.Api.Controllers.LeadsController.GetAll(System.String,System.Nullable{LeadManagement.Domain.Entities.LeadStatus})">
+            <summary>Get all leads with optional filters</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.LeadsController.GetById(System.Guid)">
+            <summary>Get a lead by ID</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.LeadsController.Create(LeadManagement.Application.DTOs.LeadCreateDto)">
+            <summary>Create a new lead</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.LeadsController.Update(System.Guid,LeadManagement.Application.DTOs.LeadUpdateDto)">
+            <summary>Update an existing lead</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.LeadsController.Delete(System.Guid)">
+            <summary>Delete a lead</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.TaskItemsController.GetByLeadId(System.Guid)">
+            <summary>Get all tasks for a lead</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.TaskItemsController.GetById(System.Guid,System.Guid)">
+            <summary>Get a specific task</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.TaskItemsController.Create(System.Guid,LeadManagement.Application.DTOs.TaskItemCreateDto)">
+            <summary>Create a task for a lead</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.TaskItemsController.Update(System.Guid,System.Guid,LeadManagement.Application.DTOs.TaskItemUpdateDto)">
+            <summary>Update a task</summary>
+        </member>
+        <member name="M:LeadManagement.Api.Controllers.TaskItemsController.Delete(System.Guid,System.Guid)">
+            <summary>Delete a task</summary>
+        </member>
+    </members>
+</doc>

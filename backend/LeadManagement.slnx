@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LeadManagement.Api/LeadManagement.Api.csproj" />
+    <Project Path="src/LeadManagement.Application/LeadManagement.Application.csproj" />
+    <Project Path="src/LeadManagement.Domain/LeadManagement.Domain.csproj" />
+    <Project Path="src/LeadManagement.Infrastructure/LeadManagement.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LeadManagement.Tests/LeadManagement.Tests.csproj" />
+  </Folder>
+</Solution>

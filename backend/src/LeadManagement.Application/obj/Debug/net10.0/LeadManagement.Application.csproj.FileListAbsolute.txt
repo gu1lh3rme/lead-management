@@ -1,0 +1,16 @@
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/bin/Debug/net10.0/LeadManagement.Application.deps.json
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/bin/Debug/net10.0/LeadManagement.Application.dll
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/bin/Debug/net10.0/LeadManagement.Application.pdb
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/bin/Debug/net10.0/LeadManagement.Domain.dll
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/bin/Debug/net10.0/LeadManagement.Domain.pdb
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.csproj.AssemblyReference.cache
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.AssemblyInfoInputs.cache
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.AssemblyInfo.cs
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.csproj.CoreCompileInputs.cache
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.sourcelink.json
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadMana.4750CB90.Up2Date
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.dll
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/refint/LeadManagement.Application.dll
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/LeadManagement.Application.pdb
+/home/runner/work/lead-management/lead-management/backend/src/LeadManagement.Application/obj/Debug/net10.0/ref/LeadManagement.Application.dll
