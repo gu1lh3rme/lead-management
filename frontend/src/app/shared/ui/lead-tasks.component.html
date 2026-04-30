@@ -1,0 +1,89 @@
+<div class="tasks-section">
+  <div class="tasks-header">
+    <h2>Tasks</h2>
+    <button mat-raised-button color="accent" (click)="toggleForm()">
+      <mat-icon>{{ showForm ? 'close' : 'add' }}</mat-icon>
+      {{ showForm ? 'Cancel' : 'Add Task' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="task-form">
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmitTask()" class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" placeholder="Task title">
+          @if (taskForm.get('title')?.hasError('required') && taskForm.get('title')?.touched) {
+            <mat-error>Title is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Due Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dueDate">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            @for (s of taskStatuses; track s) {
+              <mat-option [value]="s">{{ s }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="taskForm.invalid || saving">
+          {{ editingTask ? 'Update' : 'Add Task' }}
+        </button>
+      </form>
+    </div>
+  }
+
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="32"></mat-spinner>
+    </div>
+  } @else {
+    <table mat-table [dataSource]="tasks" class="full-width">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let task">{{ task.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dueDate">
+        <th mat-header-cell *matHeaderCellDef>Due Date</th>
+        <td mat-cell *matCellDef="let task">{{ task.dueDate | date:'shortDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let task">
+          <span [class]="'task-badge task-' + task.status.toLowerCase()">{{ task.status }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let task">
+          <button mat-icon-button (click)="onEditTask(task)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDeleteTask(task)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    @if (tasks.length === 0) {
+      <div class="empty-state">
+        <p>No tasks yet. Add your first task!</p>
+      </div>
+    }
+  }
+</div>
