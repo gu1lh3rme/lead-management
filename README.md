@@ -1,6 +1,6 @@
 # Lead Management
 
-Um mono-repositório com backend em **.NET 8** (Clean Architecture) e frontend em **Angular 18** (Standalone Components + Angular Material) para gerenciamento de leads e tarefas.
+Um mono-repositório com backend em **.NET 10** (Clean Architecture) e frontend em **Angular 18** (Standalone Components + Angular Material) para gerenciamento de leads e tarefas.
 
 ---
 
@@ -8,8 +8,9 @@ Um mono-repositório com backend em **.NET 8** (Clean Architecture) e frontend e
 
 ```
 /lead-management
-├── backend/                  ← Solução .NET 8 (abrir no Visual Studio)
-│   ├── LeadManagement.sln
+├── backend/                  ← Solução .NET 10 (abrir no Visual Studio)
+│   ├── Dockerfile           ← Container para API (.NET 10)
+│   ├── LeadManagement.slnx
 │   ├── src/
 │   │   ├── LeadManagement.Api/
 │   │   ├── LeadManagement.Application/
@@ -20,27 +21,32 @@ Um mono-repositório com backend em **.NET 8** (Clean Architecture) e frontend e
 ├── frontend/                 ← Projeto Angular 18 (abrir no VS Code)
 │   ├── src/
 │   │   └── app/
-│   │       ├── core/         (models, services, environments)
-│   │       ├── features/     (leads: list, detail, form, tasks)
-│   │       └── shared/
-│   └── ...
-├── README.md
+│   │       ├── core/         (services, models, guards)
+│   │       ├── pages/        (leads: list, detail, form, tasks)
+│   │       ├── shared/       (componentes compartilhados)
+│   │       └── integration-tests/
+│   ├── Dockerfile           ← Container para produção (Nginx)
+│   ├── nginx.conf           ← Configuração Nginx
+│   ├── README.md            ← Instruções específicas do Angular
+│   ├── TESTS.md            ← Documentação de testes Jasmine
+│   └── DEPLOY.md           ← Instruções de deploy
+├── README.md               ← Este arquivo (overview geral)
 └── .gitignore
 ```
 
 ---
 
-## Backend (.NET 8)
+## Backend (.NET 10)
 
 ### Requisitos
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) (com workload **ASP.NET and web development**)
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (ou SQL Server Express / LocalDB)
 
 ### Como abrir no Visual Studio
 1. Abra o Visual Studio 2022
 2. Clique em **Open a project or solution**
-3. Navegue até `backend/` e selecione `LeadManagement.sln`
+3. Navegue até `backend/` e selecione `LeadManagement.slnx`
 4. O Visual Studio carregará toda a solução com os 4 projetos
 
 ### Configurar a Connection String do SQL Server
@@ -60,82 +66,141 @@ Edite o arquivo `backend/src/LeadManagement.Api/appsettings.json` e ajuste a con
 - SQL Server Express: `Server=localhost\SQLEXPRESS;Database=LeadManagementDb;Trusted_Connection=True;TrustServerCertificate=True;`
 - LocalDB: `Server=(localdb)\mssqllocaldb;Database=LeadManagementDb;Trusted_Connection=True;`
 
-### Rodar as Migrations do EF Core
+### Instruções de Execução
 
-Via **Package Manager Console** no Visual Studio:
-```powershell
-# No Package Manager Console (Tools > NuGet Package Manager > Package Manager Console)
-# Selecione LeadManagement.Infrastructure como Default Project
-
-Add-Migration InitialCreate -Project LeadManagement.Infrastructure -StartupProject LeadManagement.Api
-Update-Database -Project LeadManagement.Infrastructure -StartupProject LeadManagement.Api
-```
-
-Via **Terminal / CLI**:
+**1. Restaurar dependências:**
 ```bash
 cd backend
-
-# Criar a migration inicial
-dotnet ef migrations add InitialCreate \
-  --project src/LeadManagement.Infrastructure \
-  --startup-project src/LeadManagement.Api
-
-# Aplicar as migrations no banco
-dotnet ef database update \
-  --project src/LeadManagement.Infrastructure \
-  --startup-project src/LeadManagement.Api
+dotnet restore
 ```
 
-### Executar o Backend
-- No Visual Studio: pressione **F5** ou clique em **IIS Express / LeadManagement.Api**
-- Via CLI: `cd backend && dotnet run --project src/LeadManagement.Api`
+**2. Aplicar as migrations no banco de dados:**
+```bash
+dotnet ef database update --project src/LeadManagement.Infrastructure --startup-project src/LeadManagement.Api
+```
+
+**3. Executar a API:**
+```bash
+dotnet run --project src/LeadManagement.Api
+```
+
+**4. Rodar os testes automatizados (xUnit):**
+```bash
+dotnet test tests/LeadManagement.Tests/LeadManagement.Tests.csproj
+```
 
 O backend estará disponível em:
 - **API**: `http://localhost:5000/api`
 - **Swagger UI**: `http://localhost:5000/swagger`
 
-### Rodar os Testes
+### Executar com Docker
 ```bash
 cd backend
-dotnet test
+
+# Build da imagem
+docker build -t leadmanagement-api .
+
+# Executar o container
+docker run -p 5000:5000 --name leadmanagement-api leadmanagement-api
+```
+
+**Nota**: Configure a connection string para apontar para um banco SQL Server acessível do container.
 ```
 
 ---
 
 ## Frontend (Angular 18)
 
+### Documentação Específica
+Para instruções detalhadas do frontend Angular, consulte:
+- 📖 **[README do Frontend](frontend/README.md)** - Instruções gerais do Angular CLI
+- 🧪 **[Guia de Testes](frontend/TESTS.md)** - Documentação completa dos testes Jasmine
+- 🚀 **[Guia de Deploy](frontend/DEPLOY.md)** - Instruções de deploy e produção
+
 ### Requisitos
 - [Node.js 18+](https://nodejs.org/)
 - [Angular CLI 18](https://angular.io/cli): `npm install -g @angular/cli@18`
 - [VS Code](https://code.visualstudio.com/)
 
-### Como abrir no VS Code
-1. Abra o VS Code
-2. Vá em **File > Open Folder**
-3. Selecione a pasta `frontend/`
-4. Instale as extensões recomendadas: **Angular Language Service**, **ESLint**
+### Início Rápido
 
-### Instalar dependências
+**1. Instalar dependências:**
 ```bash
 cd frontend
 npm install
 ```
 
-### Executar o Frontend
+**2. Executar em desenvolvimento:**
 ```bash
-cd frontend
 npm start
 # ou
 ng serve
 ```
 
-O frontend estará disponível em: **`http://localhost:4200`**
-
-### Build de produção
+**3. Executar testes:**
 ```bash
-cd frontend
+npm test
+```
+
+**4. Build de produção:**
+```bash
 npm run build
 ```
+
+O frontend estará disponível em: **`http://localhost:4200`**
+
+### Executar com Docker (Produção)
+```bash
+cd frontend
+
+# Build da imagem
+docker build -t leadmanagement-frontend .
+
+# Executar o container
+docker run -p 80:80 --name leadmanagement-frontend leadmanagement-frontend
+```
+
+O frontend em produção estará disponível em: **`http://localhost`**
+
+### Estrutura do Código
+```
+src/app/
+├── core/                     ← Serviços, guards, models
+├── pages/                    ← Páginas principais (leads, dashboard)
+├── shared/                   ← Componentes compartilhados
+└── integration-tests/        ← Testes de integração
+```
+
+---
+
+## Desenvolvimento e Testes
+
+### Backend (.NET 10)
+```bash
+cd backend
+
+# Rodar todos os testes
+dotnet test tests/LeadManagement.Tests/LeadManagement.Tests.csproj
+
+# Rodar testes com coverage
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+### Frontend (Angular 18)
+```bash
+cd frontend
+
+# Rodar testes unitários
+npm test
+
+# Rodar testes em modo headless
+npx ng test --watch=false --browsers=ChromeHeadless
+
+# Rodar testes específicos
+npx ng test --include='**/lead-form.component.spec.ts'
+```
+
+Para mais detalhes sobre testes do frontend, consulte [TESTS.md](frontend/TESTS.md).
 
 ---
 
@@ -170,8 +235,8 @@ npm run build
 ## Tecnologias Utilizadas
 
 ### Backend
-- .NET 8 Web API
-- Entity Framework Core 8 + SQL Server
+- .NET 10 Web API
+- Entity Framework Core + SQL Server
 - Mapster (mapeamento de objetos)
 - Swashbuckle / Swagger
 - xUnit + FluentAssertions + Moq (testes)
@@ -182,3 +247,4 @@ npm run build
 - Angular Signals (gerenciamento de estado)
 - Reactive Forms
 - Angular Router (lazy loading)
+- Jasmine (testes unitários e de integração)
