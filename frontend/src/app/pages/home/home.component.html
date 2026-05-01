@@ -1,0 +1,60 @@
+<div class="home-container">
+  <div class="welcome-section">
+    <div class="welcome-card">
+      <div class="welcome-header">
+        <mat-icon class="welcome-icon">waving_hand</mat-icon>
+        <h1>Bem-vindo ao Lead Manager!</h1>
+      </div>
+      
+      <p class="welcome-message">
+        Gerencie seus leads de forma eficiente e organizada. 
+        Acompanhe o progresso, crie tarefas e transforme prospects em clientes.
+      </p>
+      
+      <div class="quick-actions">
+        <button mat-raised-button color="primary" routerLink="/leads">
+          <mat-icon>people</mat-icon>
+          Ver Meus Leads
+        </button>
+        <button mat-raised-button color="accent" routerLink="/leads/new">
+          <mat-icon>person_add</mat-icon>
+          Criar Novo Lead
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <mat-icon class="stat-icon">people</mat-icon>
+        <div class="stat-content">
+          <h3>Total de Leads</h3>
+          <p class="stat-number">{{ totalLeads }}</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <mat-icon class="stat-icon qualified">verified</mat-icon>
+        <div class="stat-content">
+          <h3>Qualificados</h3>
+          <p class="stat-number qualified">{{ qualifiedLeads }}</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <mat-icon class="stat-icon won">emoji_events</mat-icon>
+        <div class="stat-content">
+          <h3>Ganhos</h3>
+          <p class="stat-number won">{{ wonLeads }}</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <mat-icon class="stat-icon">assignment</mat-icon>
+        <div class="stat-content">
+          <h3>Tarefas Pendentes</h3>
+          <p class="stat-number">{{ pendingTasks }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

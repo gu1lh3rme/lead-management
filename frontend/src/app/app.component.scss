@@ -1,3 +1,17 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+}
+
+// Remove shadow from old toolbar
 mat-toolbar {
-  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  box-shadow: none;
 }

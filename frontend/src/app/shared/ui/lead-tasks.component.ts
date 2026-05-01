@@ -13,7 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { TaskItemService } from '../../core/services/task-item.service';
-import { TaskItem, TASK_STATUSES, TaskStatus } from '../../core/models/task-item.model';
+import { TaskItem, TASK_STATUSES, TASK_STATUS_LABELS, TaskStatus } from '../../core/models/task-item.model';
 
 @Component({
   selector: 'app-lead-tasks',
@@ -50,9 +50,13 @@ export class LeadTasksComponent implements OnInit {
   protected saving = false;
   protected editingTask?: TaskItem;
 
+  protected getTaskStatusLabel(status: TaskStatus): string {
+    return TASK_STATUS_LABELS[status];
+  }
+
   protected taskForm = this.fb.group({
     title: ['', Validators.required],
-    dueDate: [new Date(), Validators.required],
+    dueDate: [new Date()],
     status: ['Todo' as TaskStatus, Validators.required],
   });
 
@@ -68,7 +72,7 @@ export class LeadTasksComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.snackBar.open('Error loading tasks', 'Close', { duration: 3000 });
+        this.snackBar.open('Erro ao carregar tarefas', 'Fechar', { duration: 3000 });
         this.loading = false;
       }
     });
@@ -87,7 +91,7 @@ export class LeadTasksComponent implements OnInit {
     this.showForm = true;
     this.taskForm.patchValue({
       title: task.title,
-      dueDate: new Date(task.dueDate),
+      dueDate: task.dueDate ? new Date(task.dueDate) : new Date(),
       status: task.status,
     });
   }
@@ -98,7 +102,7 @@ export class LeadTasksComponent implements OnInit {
     const formValue = this.taskForm.value;
     const dto = {
       title: formValue.title!,
-      dueDate: (formValue.dueDate as Date).toISOString(),
+      dueDate: formValue.dueDate ? (formValue.dueDate as Date).toISOString() : undefined,
       status: formValue.status as TaskStatus,
     };
 
@@ -109,28 +113,28 @@ export class LeadTasksComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.snackBar.open(
-          this.editingTask ? 'Task updated' : 'Task added',
-          'Close', { duration: 3000 }
+          this.editingTask ? 'Tarefa atualizada' : 'Tarefa adicionada',
+          'Fechar', { duration: 3000 }
         );
         this.saving = false;
         this.toggleForm();
         this.loadTasks();
       },
       error: () => {
-        this.snackBar.open('Error saving task', 'Close', { duration: 3000 });
+        this.snackBar.open('Erro ao salvar tarefa', 'Fechar', { duration: 3000 });
         this.saving = false;
       }
     });
   }
 
   protected onDeleteTask(task: TaskItem): void {
-    if (!confirm(`Delete task "${task.title}"?`)) return;
+    if (!confirm(`Excluir tarefa "${task.title}"?`)) return;
     this.taskService.delete(this.leadId, task.id).subscribe({
       next: () => {
-        this.snackBar.open('Task deleted', 'Close', { duration: 3000 });
+        this.snackBar.open('Tarefa excluída', 'Fechar', { duration: 3000 });
         this.loadTasks();
       },
-      error: () => this.snackBar.open('Error deleting task', 'Close', { duration: 3000 })
+      error: () => this.snackBar.open('Erro ao excluir tarefa', 'Fechar', { duration: 3000 })
     });
   }
 }

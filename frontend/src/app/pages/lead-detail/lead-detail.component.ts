@@ -8,7 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LeadService } from '../../core/services/lead.service';
-import { Lead } from '../../core/models/lead.model';
+import { Lead, LEAD_STATUS_LABELS, LeadStatus } from '../../core/models/lead.model';
 import { LeadTasksComponent } from '../../shared/ui/lead-tasks.component';
 
 @Component({
@@ -35,6 +35,10 @@ export class LeadDetailComponent implements OnInit {
   protected lead?: Lead;
   protected loading = true;
 
+  protected getLeadStatusLabel(status: LeadStatus): string {
+    return LEAD_STATUS_LABELS[status];
+  }
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.leadService.getById(id).subscribe({
@@ -43,7 +47,7 @@ export class LeadDetailComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.snackBar.open('Error loading lead', 'Close', { duration: 3000 });
+        this.snackBar.open('Erro ao carregar lead', 'Fechar', { duration: 3000 });
         this.goBack();
       }
     });

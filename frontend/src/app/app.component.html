@@ -1,11 +1,8 @@
-<mat-toolbar color="primary">
-  <mat-icon>people</mat-icon>
-  <span style="margin-left: 8px; font-size: 20px; font-weight: 600;">Lead Management</span>
-  <span style="flex: 1;"></span>
-  <button mat-button routerLink="/leads">
-    <mat-icon>list</mat-icon> Leads
-  </button>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
 
 

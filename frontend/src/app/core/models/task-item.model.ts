@@ -4,7 +4,7 @@ export interface TaskItem {
   id: string;
   leadId: string;
   title: string;
-  dueDate: string;
+  dueDate?: string;
   status: TaskStatus;
   createdAt: string;
   updatedAt: string;
@@ -12,14 +12,20 @@ export interface TaskItem {
 
 export interface TaskItemCreateDto {
   title: string;
-  dueDate: string;
+  dueDate?: string;
   status: TaskStatus;
 }
 
 export interface TaskItemUpdateDto {
   title: string;
-  dueDate: string;
+  dueDate?: string;
   status: TaskStatus;
 }
 
 export const TASK_STATUSES: TaskStatus[] = ['Todo', 'Doing', 'Done'];
+
+export const TASK_STATUS_LABELS: Record<TaskStatus, string> = {
+  Todo: 'Pendente',
+  Doing: 'Em Progresso',
+  Done: 'Concluída'
+};

@@ -14,7 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { LeadService } from '../../core/services/lead.service';
-import { Lead, LeadStatus, LEAD_STATUSES } from '../../core/models/lead.model';
+import { Lead, LeadStatus, LEAD_STATUSES, LEAD_STATUS_LABELS } from '../../core/models/lead.model';
 
 @Component({
   selector: 'app-lead-list',
@@ -48,6 +48,10 @@ export class LeadListComponent implements OnInit {
     status: new FormControl<LeadStatus | ''>(''),
   });
 
+  protected getLeadStatusLabel(status: LeadStatus): string {
+    return LEAD_STATUS_LABELS[status];
+  }
+
   ngOnInit(): void {
     this.loadLeads();
     this.filterForm.valueChanges.pipe(
@@ -60,7 +64,7 @@ export class LeadListComponent implements OnInit {
     const { search, status } = this.filterForm.value;
     this.leadService.getAll(search || undefined, (status as LeadStatus) || undefined)
       .subscribe({
-        error: () => this.snackBar.open('Error loading leads', 'Close', { duration: 3000 })
+        error: () => this.snackBar.open('Erro ao carregar leads', 'Fechar', { duration: 3000 })
       });
   }
 
@@ -77,13 +81,13 @@ export class LeadListComponent implements OnInit {
   }
 
   protected onDeleteLead(lead: Lead): void {
-    if (!confirm(`Delete lead "${lead.name}"?`)) return;
+    if (!confirm(`Excluir lead "${lead.name}"?`)) return;
     this.leadService.delete(lead.id).subscribe({
       next: () => {
-        this.snackBar.open('Lead deleted successfully', 'Close', { duration: 3000 });
+        this.snackBar.open('Lead excluído com sucesso', 'Fechar', { duration: 3000 });
         this.loadLeads();
       },
-      error: () => this.snackBar.open('Error deleting lead', 'Close', { duration: 3000 })
+      error: () => this.snackBar.open('Erro ao excluir lead', 'Fechar', { duration: 3000 })
     });
   }
 }

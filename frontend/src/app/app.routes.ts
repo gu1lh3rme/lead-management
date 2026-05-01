@@ -1,7 +1,11 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/leads', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'home',
+    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+  },
   {
     path: 'leads',
     loadComponent: () => import('./pages/leads/lead-list.component').then(m => m.LeadListComponent)
@@ -18,5 +22,5 @@ export const routes: Routes = [
     path: 'leads/:id/edit',
     loadComponent: () => import('./pages/leads/lead-form.component').then(m => m.LeadFormComponent)
   },
-  { path: '**', redirectTo: '/leads' }
+  { path: '**', redirectTo: '/home' }
 ];

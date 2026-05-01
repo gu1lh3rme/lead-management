@@ -3,31 +3,31 @@
     <button mat-icon-button (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1>{{ isEditing ? 'Edit Lead' : 'New Lead' }}</h1>
+    <h1>{{ isEditing ? 'Editar Lead' : 'Novo Lead' }}</h1>
   </div>
 
   <mat-card>
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" placeholder="Lead name">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" placeholder="Nome do lead">
           @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
-            <mat-error>Name is required</mat-error>
+            <mat-error>Nome é obrigatório</mat-error>
           }
           @if (form.get('name')?.hasError('minlength') && form.get('name')?.touched) {
-            <mat-error>Name must be at least 2 characters</mat-error>
+            <mat-error>Nome deve ter pelo menos 2 caracteres</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" placeholder="lead@example.com">
+          <input matInput formControlName="email" type="email" placeholder="lead@exemplo.com">
           @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
-            <mat-error>Email is required</mat-error>
+            <mat-error>Email é obrigatório</mat-error>
           }
           @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
-            <mat-error>Please enter a valid email</mat-error>
+            <mat-error>Digite um email válido</mat-error>
           }
         </mat-form-field>
 
@@ -35,18 +35,18 @@
           <mat-label>Status</mat-label>
           <mat-select formControlName="status">
             @for (s of leadStatuses; track s) {
-              <mat-option [value]="s">{{ s }}</mat-option>
+              <mat-option [value]="s">{{ getLeadStatusLabel(s) }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
 
         <div class="actions">
-          <button mat-button type="button" (click)="goBack()">Cancel</button>
+          <button mat-button type="button" (click)="goBack()">Cancelar</button>
           <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving">
             @if (saving) {
               <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
             }
-            {{ isEditing ? 'Save Changes' : 'Create Lead' }}
+            {{ isEditing ? 'Salvar Alterações' : 'Criar Lead' }}
           </button>
         </div>
       </form>

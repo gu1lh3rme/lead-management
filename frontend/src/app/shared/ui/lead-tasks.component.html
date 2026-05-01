@@ -1,9 +1,9 @@
 <div class="tasks-section">
   <div class="tasks-header">
-    <h2>Tasks</h2>
+    <h2>Tarefas</h2>
     <button mat-raised-button color="accent" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'close' : 'add' }}</mat-icon>
-      {{ showForm ? 'Cancel' : 'Add Task' }}
+      {{ showForm ? 'Cancelar' : 'Adicionar Tarefa' }}
     </button>
   </div>
 
@@ -11,15 +11,15 @@
     <div class="task-form">
       <form [formGroup]="taskForm" (ngSubmit)="onSubmitTask()" class="form-row">
         <mat-form-field appearance="outline">
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" placeholder="Task title">
+          <mat-label>Título</mat-label>
+          <input matInput formControlName="title" placeholder="Título da tarefa">
           @if (taskForm.get('title')?.hasError('required') && taskForm.get('title')?.touched) {
-            <mat-error>Title is required</mat-error>
+            <mat-error>Título é obrigatório</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Due Date</mat-label>
+          <mat-label>Data de Vencimento</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="dueDate">
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -29,13 +29,13 @@
           <mat-label>Status</mat-label>
           <mat-select formControlName="status">
             @for (s of taskStatuses; track s) {
-              <mat-option [value]="s">{{ s }}</mat-option>
+              <mat-option [value]="s">{{ getTaskStatusLabel(s) }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit" [disabled]="taskForm.invalid || saving">
-          {{ editingTask ? 'Update' : 'Add Task' }}
+          {{ editingTask ? 'Atualizar' : 'Adicionar Tarefa' }}
         </button>
       </form>
     </div>
@@ -48,24 +48,24 @@
   } @else {
     <table mat-table [dataSource]="tasks" class="full-width">
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <th mat-header-cell *matHeaderCellDef>Título</th>
         <td mat-cell *matCellDef="let task">{{ task.title }}</td>
       </ng-container>
 
       <ng-container matColumnDef="dueDate">
-        <th mat-header-cell *matHeaderCellDef>Due Date</th>
-        <td mat-cell *matCellDef="let task">{{ task.dueDate | date:'shortDate' }}</td>
+        <th mat-header-cell *matHeaderCellDef>Data de Vencimento</th>
+        <td mat-cell *matCellDef="let task">{{ task.dueDate ? (task.dueDate | date:'MM/dd/yyyy') : '-' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Status</th>
         <td mat-cell *matCellDef="let task">
-          <span [class]="'task-badge task-' + task.status.toLowerCase()">{{ task.status }}</span>
+          <span [class]="'task-badge task-' + task.status.toLowerCase()">{{ getTaskStatusLabel(task.status) }}</span>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
         <td mat-cell *matCellDef="let task">
           <button mat-icon-button (click)="onEditTask(task)">
             <mat-icon>edit</mat-icon>
@@ -82,7 +82,7 @@
 
     @if (tasks.length === 0) {
       <div class="empty-state">
-        <p>No tasks yet. Add your first task!</p>
+        <p>Nenhuma tarefa ainda. Adicione sua primeira tarefa!</p>
       </div>
     }
   }

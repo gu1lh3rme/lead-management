@@ -1,5 +1,74 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+// Override Angular Material colors with CSS custom properties
+:root {
+  --mdc-theme-primary: #4caf50;
+  --mdc-theme-secondary: #2196f3;
+  --mat-toolbar-container-background-color: #4caf50;
+  --mat-toolbar-container-text-color: white;
+}
+
+// Custom button colors
+.mat-mdc-raised-button.mat-primary {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.mat-mdc-raised-button.mat-accent {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+// Additional custom styles
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.status-new {
+    background-color: #e3f2fd;
+    color: #1976d2;
+  }
+  
+  &.status-qualified {
+    background-color: #fff3e0;
+    color: #f57c00;
+  }
+  
+  &.status-won {
+    background-color: #e8f5e8;
+    color: #388e3c;
+  }
+  
+  &.status-lost {
+    background-color: #ffebee;
+    color: #d32f2f;
+  }
+}
+
+.task-badge {
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  
+  &.task-todo {
+    background-color: #fff3e0;
+    color: #f57c00;
+  }
+  
+  &.task-doing {
+    background-color: #e3f2fd;
+    color: #1976d2;
+  }
+  
+  &.task-done {
+    background-color: #e8f5e8;
+    color: #388e3c;
+  }
+}
+
 html, body {
   height: 100%;
   margin: 0;

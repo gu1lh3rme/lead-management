@@ -2,23 +2,23 @@
   <div class="header">
     <h1>Leads</h1>
     <button mat-raised-button color="primary" (click)="onCreateLead()">
-      <mat-icon>add</mat-icon> New Lead
+      <mat-icon>add</mat-icon> Novo Lead
     </button>
   </div>
 
   <div class="filters" [formGroup]="filterForm">
     <mat-form-field appearance="outline">
-      <mat-label>Search by name or email</mat-label>
-      <input matInput formControlName="search" placeholder="Type to search...">
+      <mat-label>Buscar por nome ou email</mat-label>
+      <input matInput formControlName="search" placeholder="Digite para buscar...">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Filter by status</mat-label>
+      <mat-label>Filtrar por status</mat-label>
       <mat-select formControlName="status">
-        <mat-option [value]="''">All statuses</mat-option>
+        <mat-option [value]="''">Todos os status</mat-option>
         @for (s of leadStatuses; track s) {
-          <mat-option [value]="s">{{ s }}</mat-option>
+          <mat-option [value]="s">{{ getLeadStatusLabel(s) }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -31,7 +31,7 @@
   } @else {
     <table mat-table [dataSource]="leadService.leads()" class="full-width">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
         <td mat-cell *matCellDef="let lead">{{ lead.name }}</td>
       </ng-container>
 
@@ -43,25 +43,25 @@
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Status</th>
         <td mat-cell *matCellDef="let lead">
-          <span [class]="'status-badge status-' + lead.status.toLowerCase()">{{ lead.status }}</span>
+          <span [class]="'status-badge status-' + lead.status.toLowerCase()">{{ getLeadStatusLabel(lead.status) }}</span>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef>Created</th>
-        <td mat-cell *matCellDef="let lead">{{ lead.createdAt | date:'short' }}</td>
+        <th mat-header-cell *matHeaderCellDef>Criado em</th>
+        <td mat-cell *matCellDef="let lead">{{ lead.createdAt | date:'MM/dd/yyyy' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
         <td mat-cell *matCellDef="let lead">
-          <button mat-icon-button matTooltip="View Details" (click)="onViewDetail(lead)">
+          <button mat-icon-button matTooltip="Ver Detalhes" (click)="onViewDetail(lead)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Edit" (click)="onEditLead(lead)">
+          <button mat-icon-button matTooltip="Editar" (click)="onEditLead(lead)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" matTooltip="Delete" (click)="onDeleteLead(lead)">
+          <button mat-icon-button color="warn" matTooltip="Excluir" (click)="onDeleteLead(lead)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -74,7 +74,7 @@
     @if (leadService.leads().length === 0) {
       <div class="empty-state">
         <mat-icon>person_search</mat-icon>
-        <p>No leads found. Create your first lead!</p>
+        <p>Nenhum lead encontrado. Crie seu primeiro lead!</p>
       </div>
     }
   }

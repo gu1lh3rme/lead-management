@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LeadService } from '../../core/services/lead.service';
-import { LEAD_STATUSES, LeadStatus } from '../../core/models/lead.model';
+import { LEAD_STATUSES, LEAD_STATUS_LABELS, LeadStatus } from '../../core/models/lead.model';
 
 @Component({
   selector: 'app-lead-form',
@@ -48,6 +48,10 @@ export class LeadFormComponent implements OnInit {
     status: ['New' as LeadStatus, Validators.required],
   });
 
+  protected getLeadStatusLabel(status: LeadStatus): string {
+    return LEAD_STATUS_LABELS[status];
+  }
+
   ngOnInit(): void {
     this.leadId = this.route.snapshot.paramMap.get('id') ?? undefined;
     this.isEditing = !!this.leadId && this.leadId !== 'new';
@@ -56,7 +60,7 @@ export class LeadFormComponent implements OnInit {
       this.leadService.getById(this.leadId).subscribe({
         next: lead => this.form.patchValue(lead),
         error: () => {
-          this.snackBar.open('Error loading lead', 'Close', { duration: 3000 });
+          this.snackBar.open('Erro ao carregar lead', 'Fechar', { duration: 3000 });
           this.goBack();
         }
       });
@@ -75,13 +79,13 @@ export class LeadFormComponent implements OnInit {
     request$.subscribe({
       next: lead => {
         this.snackBar.open(
-          this.isEditing ? 'Lead updated successfully' : 'Lead created successfully',
-          'Close', { duration: 3000 }
+          this.isEditing ? 'Lead atualizado com sucesso' : 'Lead criado com sucesso',
+          'Fechar', { duration: 3000 }
         );
         this.router.navigate(['/leads', lead.id]);
       },
       error: () => {
-        this.snackBar.open('Error saving lead', 'Close', { duration: 3000 });
+        this.snackBar.open('Erro ao salvar lead', 'Fechar', { duration: 3000 });
         this.saving = false;
       }
     });

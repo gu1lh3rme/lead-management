@@ -9,7 +9,7 @@ export interface Lead {
   status: LeadStatus;
   createdAt: string;
   updatedAt: string;
-  tasks: TaskItem[];
+  tasksCount?: number;
 }
 
 export interface LeadCreateDto {
@@ -27,8 +27,8 @@ export interface LeadUpdateDto {
 export const LEAD_STATUSES: LeadStatus[] = ['New', 'Qualified', 'Won', 'Lost'];
 
 export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
-  New: 'New',
-  Qualified: 'Qualified',
-  Won: 'Won',
-  Lost: 'Lost'
+  New: 'Novo',
+  Qualified: 'Qualificado',
+  Won: 'Ganho',
+  Lost: 'Perdido'
 };
