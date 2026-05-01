@@ -18,7 +18,6 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Email).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Status).HasConversion<string>();
-            entity.HasIndex(e => e.Email).IsUnique();
         });
 
         modelBuilder.Entity<TaskItem>(entity =>
@@ -31,5 +30,8 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.LeadId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+        modelBuilder.Entity<Lead>().HasQueryFilter(l => !l.IsDeleted);
+        modelBuilder.Entity<TaskItem>().HasQueryFilter(t => !t.IsDeleted);
     }
 }

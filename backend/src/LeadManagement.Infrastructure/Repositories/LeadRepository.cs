@@ -33,6 +33,10 @@ public class LeadRepository : ILeadRepository
 
     public async Task<Lead> CreateAsync(Lead lead)
     {
+        // Garante unicidade de e-mail apenas para leads ativos
+        var exists = await _context.Leads.AnyAsync(l => l.Email == lead.Email && !l.IsDeleted);
+        if (exists)
+            throw new InvalidOperationException($"Já existe um lead ativo com o e-mail {lead.Email}.");
         _context.Leads.Add(lead);
         await _context.SaveChangesAsync();
         return lead;
@@ -47,10 +51,14 @@ public class LeadRepository : ILeadRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        var lead = await _context.Leads.FindAsync(id);
+        var lead = await _context.Leads.Include(l => l.Tasks).FirstOrDefaultAsync(l => l.Id == id);
         if (lead != null)
         {
-            _context.Leads.Remove(lead);
+            lead.IsDeleted = true;
+            foreach (var task in lead.Tasks)
+            {
+                task.IsDeleted = true;
+            }
             await _context.SaveChangesAsync();
         }
     }

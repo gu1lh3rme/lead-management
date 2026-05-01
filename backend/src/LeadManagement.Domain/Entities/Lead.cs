@@ -9,4 +9,5 @@ public class Lead
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
+    public bool IsDeleted { get; set; } = false;
 }

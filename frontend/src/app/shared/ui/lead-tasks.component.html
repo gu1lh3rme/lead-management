@@ -54,7 +54,7 @@
 
       <ng-container matColumnDef="dueDate">
         <th mat-header-cell *matHeaderCellDef>Data de Vencimento</th>
-        <td mat-cell *matCellDef="let task">{{ task.dueDate ? (task.dueDate | date:'MM/dd/yyyy') : '-' }}</td>
+        <td mat-cell *matCellDef="let task">{{ task.dueDate ? (task.dueDate | date:'dd/MM/yyyy') : '-' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">

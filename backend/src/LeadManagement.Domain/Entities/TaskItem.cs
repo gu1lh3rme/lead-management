@@ -10,4 +10,5 @@ public class TaskItem
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public Lead Lead { get; set; } = null!;
+    public bool IsDeleted { get; set; } = false;
 }
